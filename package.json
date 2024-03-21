@@ -1,0 +1,19 @@
+{
+  "name": "com.fps.utils",
+  "author": "Fixeles",
+  "displayName": "FPS Utils",
+  "description": "Utils, extensions, attributes",
+  "unity": "2022.3",
+  "version": "0.0.1",
+  "keywords": [
+    "Fluffy Pixels",
+    "fps"
+  ],
+  "dependencies": {
+    "com.fps.utils": "0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fixeles/fps-utils"
+  }
+}
