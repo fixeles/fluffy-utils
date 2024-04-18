@@ -7,11 +7,11 @@ namespace FPS
         public static void AddCustomDefine(string define)
         {
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!defines.Contains(define))
-            {
-                defines += ";" + define;
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
-            }
+            if (defines.Contains(define))
+                return;
+            
+            defines += ";" + define;
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
         }
 
         public static bool HasDefine(string define)

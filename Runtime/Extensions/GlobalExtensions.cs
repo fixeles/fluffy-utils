@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    public static class ExtensionsMain
+    public static class GlobalExtensions
     {
         public static T GetRandomElement<T>(this IEnumerable<T> collection)
         {
