@@ -86,8 +86,8 @@ namespace FPS
                     .Select(UnityEditor.AssetDatabase.GUIDToAssetPath)
                     .Select(UnityEditor.AssetDatabase.LoadAssetAtPath<T>)
                     .ToArray();
-#endif
             }
         }
+#endif
     }
 }
