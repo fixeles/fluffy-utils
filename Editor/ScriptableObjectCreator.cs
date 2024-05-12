@@ -19,10 +19,10 @@ namespace FPS
                 AssetDatabase.CreateFolder("Assets/FPS", "Resources");
 
 
-            var reference = Utils.Editor.GetAllInstances<T>()[0];
+            var instances = Utils.Editor.GetAllInstances<T>();
             try
             {
-                var newObject = Object.Instantiate(reference);
+                T newObject = instances.Length == 0 ? ScriptableObject.CreateInstance<T>() : Object.Instantiate(instances[0]);
                 AssetDatabase.CreateAsset(newObject, $"Assets/FPS/Resources/{type.Name}.asset");
             }
             catch
