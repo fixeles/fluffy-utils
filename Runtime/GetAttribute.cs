@@ -16,36 +16,42 @@ namespace FPS
 
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(GetAttribute))]
-    public class GetAttributePropertyDrawer : PropertyDrawer
+    public class ComponentSelectorPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (property.propertyType == SerializedPropertyType.ObjectReference && property.objectReferenceValue == null)
+            if (property.serializedObject.targetObject is Component owner)
             {
-                if (property.serializedObject.targetObject is Component owner)
+                string typeName = property.type.Replace("PPtr<$", "").TrimEnd('>');
+                var getComponent = owner.GetComponent(typeName);
+                bool isTypeAvailable = property.propertyType == SerializedPropertyType.ObjectReference;
+                bool isNullRef = isTypeAvailable && property.objectReferenceValue == null;
+                var isAnotherGameObjectComponent = isTypeAvailable && !ShowInInspector && property.objectReferenceValue != getComponent;
+                if (isNullRef || isAnotherGameObjectComponent)
                 {
-                    string typeName = property.type.Replace("PPtr<$", "").TrimEnd('>');
-                    property.objectReferenceValue = owner.GetComponent(typeName);
+                    property.objectReferenceValue = getComponent;
                     if (property.objectReferenceValue == null)
                         Debug.LogWarning($"{owner.name} doesn't contain a {typeName}");
                 }
             }
-
-            if (attribute is not GetAttribute { ShowInInspector: true })
+            
+            if (!ShowInInspector)
                 return;
 
             EditorGUI.BeginProperty(position, label, property);
             EditorGUI.PropertyField(position, property, label, true);
             EditorGUI.EndProperty();
         }
-
+        
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (attribute is GetAttribute { ShowInInspector: true })
+            if (ShowInInspector)
                 return base.GetPropertyHeight(property, label);
 
             return 0;
         }
+
+        private bool ShowInInspector => attribute is GetAttribute { ShowInInspector: true };
     }
 #endif
 }
