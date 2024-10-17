@@ -6,7 +6,7 @@ namespace FPS
 {
     public static class GZip
     {
-        public static string Compress(string input)
+        public static string Encode(string input)
         {
             using MemoryStream memoryStream = new();
             using (GZipStream gzipStream = new GZipStream(memoryStream, CompressionMode.Compress))
@@ -18,7 +18,7 @@ namespace FPS
             return Convert.ToBase64String(memoryStream.ToArray());
         }
         
-        public static string Decompress(string encodedValue)
+        public static string Decode(string encodedValue)
         {
             byte[] compressedBytes = Convert.FromBase64String(encodedValue);
             using MemoryStream memoryStream = new(compressedBytes);

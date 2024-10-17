@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace FPS
 {
+    //todo: remove inheritance. use attribute
     public abstract class ScriptableObjectCreator<T> where T : ScriptableObject
     {
         protected static void TryCreate()
@@ -11,13 +12,7 @@ namespace FPS
             var type = typeof(T);
             if (Resources.Load<T>(type.Name) != null)
                 return;
-
-            if (!AssetDatabase.IsValidFolder("Assets/FPS"))
-                AssetDatabase.CreateFolder("Assets", "FPS");
-
-            if (!AssetDatabase.IsValidFolder("Assets/FPS/Resources"))
-                AssetDatabase.CreateFolder("Assets/FPS", "Resources");
-
+            Utils.Editor.TryCreateResourcesFolder();
 
             var instances = Utils.Editor.GetAllInstances<T>();
             try
